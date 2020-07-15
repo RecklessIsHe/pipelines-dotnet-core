@@ -48,3 +48,5 @@ steps:
 # Upload build artifacts
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'
+  inputs:
+    artifactName: 'AzureTest'
