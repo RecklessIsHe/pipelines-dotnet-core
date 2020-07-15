@@ -12,44 +12,43 @@ variables:
 
 jobs:
   - job: AzureDemoPipeline
+    pool:
+      vmImage: 'windows-latest'
 
-pool:
-  vmImage: 'windows-latest'
+    steps:
+    # Download NuGet packages and project-specific tools
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet restore'
+      inputs:
+        command: restore
+        projects: '**/*.csproj'
 
-  steps:
-  # Download NuGet packages and project-specific tools
-  - task: DotNetCoreCLI@2
-    displayName: 'dotnet restore'
-    inputs:
-      command: restore
-      projects: '**/*.csproj'
+    # Build the project
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet build'
+      inputs:
+        projects: '**/*.csproj'
+        arguments: '--configuration $(buildConfiguration)'
 
-  # Build the project
-  - task: DotNetCoreCLI@2
-    displayName: 'dotnet build'
-    inputs:
-      projects: '**/*.csproj'
-      arguments: '--configuration $(buildConfiguration)'
+    # Run unit tests (e.g., MSTest, xUnit, NUnit)
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet test'
+      inputs:
+        command: test
+        projects: '**/*.csproj'
+        arguments: '--configuration $(buildConfiguration)'
 
-  # Run unit tests (e.g., MSTest, xUnit, NUnit)
-  - task: DotNetCoreCLI@2
-    displayName: 'dotnet test'
-    inputs:
-      command: test
-      projects: '**/*.csproj'
-      arguments: '--configuration $(buildConfiguration)'
-
-  # Publish artifacts to Azure Pipelines
-  - task: DotNetCoreCLI@2
-    displayName: 'dotnet publish'
-    inputs:
-      command: publish
-      publishWebProjects: false
-      projects: '**/*.csproj'
-      arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    # Publish artifacts to Azure Pipelines
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet publish'
+      inputs:
+        command: publish
+        publishWebProjects: false
+        projects: '**/*.csproj'
+        arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
     
-  # Upload build artifacts
-  - task: PublishBuildArtifacts@1
-    displayName: 'Publish Artifact: drop'
-    inputs:
-      artifactName: 'AzureDemoPipeline'
+    # Upload build artifacts
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Artifact: drop'
+      inputs:
+        artifactName: 'AzureDemoPipeline'
