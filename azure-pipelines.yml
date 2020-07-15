@@ -13,18 +13,22 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
+
+# Download NuGet packages and project-specific tools
 - task: DotNetCoreCLI@2
   displayName: 'dotnet restore'
   inputs:
     command: restore
     projects: '**/*.csproj'
 
+# Build the project
 - task: DotNetCoreCLI@2
   displayName: 'dotnet build'
   inputs:
     projects: '**/*.csproj'
     arguments: '--configuration $(buildConfiguration)'
 
+# Run unit tests (e.g., MSTest, xUnit, NUnit)
 - task: DotNetCoreCLI@2
   displayName: 'dotnet test'
   inputs:
@@ -32,6 +36,7 @@ steps:
     projects: '**/*.csproj'
     arguments: '--configuration $(buildConfiguration)'
 
+# Publish artifacts to Azure Pipelines
 - task: DotNetCoreCLI@2
   displayName: 'dotnet publish'
   inputs:
@@ -40,5 +45,6 @@ steps:
     projects: '**/*.csproj'
     arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
     
+# Upload build artifacts
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'
