@@ -49,10 +49,10 @@ jobs:
         arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
     
     # Upload build artifacts
-    - task: PublishBuildArtifacts@1
-      displayName: 'Publish Artifact: drop'
-      inputs:
-        artifactName: 'AzureDemoPipeline'
+    #- task: PublishBuildArtifacts@1
+    #  displayName: 'Publish Artifact: drop'
+    #  inputs:
+    #    artifactName: 'AzureDemoPipeline'
 
     # Deploy a Web Deploy package (ASP.NET)
     - task: AzureWebApp@1
@@ -61,4 +61,4 @@ jobs:
         appType: webApp
         azureSubscription: 'AzureDemoPipelineSC'
         appName: 'AzureDemoAppVitas'
-        package: '**/*.zip'  
+        package: $(Build.ArtifactStagingDirectory)/*.zip
