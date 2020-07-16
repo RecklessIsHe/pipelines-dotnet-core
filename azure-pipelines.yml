@@ -56,7 +56,9 @@ jobs:
 
     # Deploy a Web Deploy package (ASP.NET)
     - task: AzureWebApp@1
+      displayName: Azure Web App Deploy
       inputs:
+        appType: webApp
         azureSubscription: 'AzureDemoPipelineSC'
         appName: 'AzureDemoApp'
         package: $(System.DefaultWorkingDirectory)/**/*.zip  
