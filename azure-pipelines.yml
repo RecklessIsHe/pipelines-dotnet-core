@@ -12,6 +12,7 @@ variables:
 
 jobs:
   - job: AzureDemoPipeline
+    displayName: Azure Demo Pipeline for Vitas
     pool:
       vmImage: 'windows-latest'
 
