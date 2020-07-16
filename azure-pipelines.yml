@@ -60,5 +60,5 @@ jobs:
       inputs:
         appType: webApp
         azureSubscription: 'AzureDemoPipelineSC'
-        appName: 'AzureDemoApp'
+        appName: 'AzureDemoAppVitas'
         package: $(System.DefaultWorkingDirectory)/**/*.zip  
