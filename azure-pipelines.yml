@@ -53,3 +53,10 @@ jobs:
       displayName: 'Publish Artifact: drop'
       inputs:
         artifactName: 'AzureDemoPipeline'
+
+    # Deploy a Web Deploy package (ASP.NET)
+    - task: AzureWebApp@1
+      inputs:
+        azureSubscription: 'AzureDemoPipelineSC'
+        appName: 'AzureDemoApp'
+        package: $(System.DefaultWorkingDirectory)/**/*.zip  
