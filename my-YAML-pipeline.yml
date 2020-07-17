@@ -26,3 +26,13 @@ steps:
   inputs:
     projects: '**/*.csproj'
     arguments: '--configuration $(buildConfiguration)'
+
+# Deploy a Web Deploy package (ASP.NET)
+- task: AzureWebApp@1
+  displayName: Azure Web App Deploy
+  inputs:
+    appType: webApp
+    azureSubscription: 'AzureDemoPipelineSC'
+    appName: 'AzureDemoAppVitas'
+    package: $(Build.ArtifactStagingDirectory)/*.zip
+
