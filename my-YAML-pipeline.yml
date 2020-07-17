@@ -27,6 +27,29 @@ steps:
     projects: '**/*.csproj'
     arguments: '--configuration $(buildConfiguration)'
 
+# Run unit tests (e.g., MSTest, xUnit, NUnit)
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet test'
+  inputs:
+    command: test
+    projects: '**/*.csproj'
+    arguments: '--configuration $(buildConfiguration)'
+
+# Publish artifacts to Azure Pipelines
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet publish'
+  inputs:
+    command: publish
+    publishWebProjects: false
+    projects: '**/*.csproj'
+    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    
+# Upload build artifacts
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'
+  inputs:
+    artifactName: 'AzureDemoPipeline'
+
 # Deploy a Web Deploy package (ASP.NET)
 - task: AzureWebApp@1
   displayName: Azure Web App Deploy
