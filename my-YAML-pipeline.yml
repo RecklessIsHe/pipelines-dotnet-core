@@ -36,3 +36,4 @@ steps:
     appName: 'AzureDemoAppVitas'
     package: $(Build.ArtifactStagingDirectory)/*.zip
 
+
